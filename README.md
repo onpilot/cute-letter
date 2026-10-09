@@ -2,6 +2,8 @@
 
 A static Vite + React site: a sealed envelope, a password, then a cute multi-page letter.
 
+<img width="1891" height="1080" alt="Preview" src="https://github.com/user-attachments/assets/647c4644-0787-4791-905d-4ff00aca9a30" />
+
 ## Run it
 
 ```bash
