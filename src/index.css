@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Quicksand", system-ui, sans-serif;
+  --font-hand: "Gaegu", "Comic Sans MS", cursive;
+  --color-pink: #ffd6e8;
+  --color-pink-deep: #ff9ec7;
+  --color-blue: #cfe8ff;
+  --color-blue-deep: #7db8f5;
+  --color-lavender: #e8dcff;
+  --color-cream: #fffafc;
+  --color-cocoa: #6a4a5e;
+  --color-berry: #e0558f;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-cocoa);
+  background: linear-gradient(160deg, #ffe3f0 0%, #e9e0ff 50%, #d6ecff 100%) fixed;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-blue-deep);
+  outline-offset: 3px;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-14px) rotate(6deg); }
+}
+.float { animation: float 6s ease-in-out infinite; }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.bob { animation: bob 1.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .float, .bob { animation: none; }
+}
+
+/* Notebook paper: ruled lines every 2.5rem, matching the text line-height */
+.lined {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(2.5rem - 1px),
+    #ffd0e3 calc(2.5rem - 1px),
+    #ffd0e3 2.5rem
+  );
+}

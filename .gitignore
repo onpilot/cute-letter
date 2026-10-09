@@ -1,0 +1,4 @@
+node_modules
+dist
+# your plaintext letter: never commit it. Only src/letter.enc.json is safe to publish.
+letter.json
