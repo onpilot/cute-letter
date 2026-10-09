@@ -1,4 +1,9 @@
 node_modules
 dist
+*.env
 # your plaintext letter: never commit it. Only src/letter.enc.json is safe to publish.
 letter.json
+photo.jpg
+photo.jpeg
+photo.png
+photo.webp
