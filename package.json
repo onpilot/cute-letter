@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/gaegu": "^5.1.0",
     "@fontsource/quicksand": "^5.1.0",
+    "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-label": "^2.1.1",
     "canvas-confetti": "^1.9.3",
     "motion": "^12.0.0",

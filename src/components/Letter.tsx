@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import confetti from "canvas-confetti";
 import type { LetterData } from "../lib/crypto";
+import ConfirmClose from "./ConfirmClose";
 
 type Props = { letter: LetterData; onClose: () => void };
 
@@ -182,12 +183,7 @@ export default function Letter({ letter, onClose }: Props) {
         </div>
 
         {isLast ? (
-          <button
-            onClick={onClose}
-            className="rounded-full bg-blue-deep px-5 py-2.5 text-white shadow-[0_3px_0_#4f8fd6] transition active:translate-y-0.5 active:shadow-none"
-          >
-            close letter
-          </button>
+          <ConfirmClose onConfirm={onClose} />
         ) : (
           <button
             onClick={() => go(page + 1)}

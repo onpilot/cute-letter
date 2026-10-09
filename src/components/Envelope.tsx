@@ -12,6 +12,7 @@ export default function Envelope({ open, onSubmit }: Props) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [show, setShow] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -88,9 +89,10 @@ export default function Envelope({ open, onSubmit }: Props) {
         <Label.Root htmlFor="password" className="font-hand text-2xl">
           type the secret password
         </Label.Root>
+        <div className="relative w-full">
         <input
           id="password"
-          type="password"
+          type={show ? "text" : "password"}
           autoComplete="off"
           autoCapitalize="off"
           autoCorrect="off"
@@ -104,9 +106,23 @@ export default function Envelope({ open, onSubmit }: Props) {
           }}
           aria-invalid={error}
           aria-describedby="password-error"
-          className="w-full rounded-full border-2 border-pink-deep bg-white/80 px-5 py-2.5 text-center text-lg tracking-widest text-cocoa shadow-[0_3px_0_#ff9ec7] outline-none placeholder:text-cocoa/30 focus:border-blue-deep focus:shadow-[0_3px_0_#7db8f5]"
+          className="w-full rounded-full border-2 border-pink-deep bg-white/80 px-12 py-2.5 text-center text-lg tracking-widest text-cocoa shadow-[0_3px_0_#ff9ec7] outline-none placeholder:text-cocoa/30 focus:border-blue-deep focus:shadow-[0_3px_0_#7db8f5]"
           placeholder="••••••••"
         />
+        <button
+          type="button"
+          onClick={() => setShow((v) => !v)}
+          onMouseDown={(e) => e.preventDefault()} // keep focus in the input
+          aria-label={show ? "Hide password" : "Show password"}
+          aria-pressed={show}
+          className="absolute top-1/2 right-1.5 grid size-10 -translate-y-1/2 place-items-center rounded-full text-cocoa/70 transition hover:bg-pink/70"
+        >
+          <svg viewBox="0 0 24 24" className="size-5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]" aria-hidden="true">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" />
+            {show && <path d="M3 3l18 18" />}
+          </svg>
+        </button>
+        </div>
         <p id="password-error" role="alert" className="min-h-6 font-hand text-xl text-berry">
           {error ? "oops, that's not it. try again 🥺" : hint ? `hint: ${hint}` : ""}
         </p>
