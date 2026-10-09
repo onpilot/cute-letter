@@ -33,9 +33,9 @@ export default function Envelope({ open, onSubmit }: Props) {
     <motion.main
       exit={{ opacity: 0, y: 24 }}
       transition={{ duration: 0.5 }}
-      className="relative z-10 mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-12 px-6 py-12"
+      className="relative z-10 mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-8 px-5 py-8 sm:gap-12 sm:px-6 sm:py-12"
     >
-      <h1 className="font-hand text-5xl font-bold text-cocoa sm:text-6xl">a letter for you 💌</h1>
+      <h1 className="font-hand text-center text-4xl font-bold text-cocoa sm:text-6xl">a letter for you 💌</h1>
 
       {/* Envelope */}
       <div
@@ -92,6 +92,10 @@ export default function Envelope({ open, onSubmit }: Props) {
           id="password"
           type="password"
           autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          spellCheck={false}
+          enterKeyHint="go"
           value={password}
           disabled={busy}
           onChange={(e) => {

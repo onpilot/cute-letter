@@ -73,7 +73,7 @@ export default function Letter({ letter, onClose }: Props) {
     const t = setTimeout(
       () =>
         confetti({
-          particleCount: 110,
+          particleCount: window.innerWidth < 640 ? 70 : 110,
           spread: 85,
           origin: { y: 0.35 },
           colors: ["#ffd6e8", "#ff9ec7", "#cfe8ff", "#7db8f5", "#e8dcff", "#fff3b0"],
@@ -85,7 +85,7 @@ export default function Letter({ letter, onClose }: Props) {
   }, []);
 
   return (
-    <main className="relative z-10 mx-auto flex min-h-dvh max-w-2xl flex-col items-center justify-center gap-7 px-4 py-12">
+    <main className="relative z-10 mx-auto flex min-h-dvh max-w-2xl flex-col items-center justify-center gap-7 px-4 pt-10 pb-28 sm:py-12">
       <motion.article
         initial={{ y: 90, opacity: 0, scale: 0.96 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -105,6 +105,13 @@ export default function Letter({ letter, onClose }: Props) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -28 * dir }}
               transition={{ duration: 0.35 }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.25}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -60) go(page + 1);
+                else if (info.offset.x > 60) go(page - 1);
+              }}
               className="flex flex-col gap-10"
             >
               {isFirst && <p className="font-hand text-4xl leading-10 font-bold text-berry sm:text-5xl">{letter.greeting}</p>}
@@ -125,39 +132,43 @@ export default function Letter({ letter, onClose }: Props) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.1 }}
-        className="flex w-full items-center justify-between text-lg font-bold"
+        className="grid w-full grid-cols-2 gap-3 text-lg font-bold sm:flex sm:items-center sm:justify-between"
       >
         <button
           onClick={() => go(page - 1)}
           disabled={isFirst}
-          className="rounded-full border-2 border-pink-deep bg-cream px-5 py-2 shadow-[0_3px_0_#ff9ec7] transition active:translate-y-0.5 active:shadow-none disabled:invisible"
+          className="rounded-full border-2 border-pink-deep bg-cream px-5 py-2.5 shadow-[0_3px_0_#ff9ec7] transition active:translate-y-0.5 active:shadow-none disabled:invisible"
         >
           ‹ back
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="order-first col-span-2 flex flex-wrap items-center justify-center sm:order-none sm:col-span-1">
           {letter.pages.map((_, i) => (
             <button
               key={i}
               onClick={() => go(i)}
               aria-label={`Page ${i + 1} of ${total}`}
               aria-current={i === page}
-              className={`size-3 rounded-full border-2 border-pink-deep transition ${i === page ? "scale-125 bg-pink-deep" : "bg-cream hover:bg-pink"}`}
-            />
+              className="grid size-9 place-items-center"
+            >
+              <span
+                className={`block size-3 rounded-full border-2 border-pink-deep transition ${i === page ? "scale-125 bg-pink-deep" : "bg-cream"}`}
+              />
+            </button>
           ))}
         </div>
 
         {isLast ? (
           <button
             onClick={onClose}
-            className="rounded-full bg-blue-deep px-5 py-2 text-white shadow-[0_3px_0_#4f8fd6] transition active:translate-y-0.5 active:shadow-none"
+            className="rounded-full bg-blue-deep px-5 py-2.5 text-white shadow-[0_3px_0_#4f8fd6] transition active:translate-y-0.5 active:shadow-none"
           >
             close letter
           </button>
         ) : (
           <button
             onClick={() => go(page + 1)}
-            className="rounded-full bg-berry px-5 py-2 text-white shadow-[0_3px_0_#b23a70] transition active:translate-y-0.5 active:shadow-none"
+            className="rounded-full bg-berry px-5 py-2.5 text-white shadow-[0_3px_0_#b23a70] transition active:translate-y-0.5 active:shadow-none"
           >
             next page ›
           </button>

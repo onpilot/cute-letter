@@ -13,10 +13,28 @@
   --color-berry: #e0558f;
 }
 
+html {
+  background: #e9e0ff;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   font-family: var(--font-sans);
   color: var(--color-cocoa);
-  background: linear-gradient(160deg, #ffe3f0 0%, #e9e0ff 50%, #d6ecff 100%) fixed;
+}
+
+/* A fixed layer instead of background-attachment: fixed, which is broken on iOS */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(160deg, #ffe3f0 0%, #e9e0ff 50%, #d6ecff 100%);
+}
+
+button {
+  touch-action: manipulation; /* no double-tap zoom delay */
 }
 
 :focus-visible {
