@@ -5,6 +5,7 @@ export type LetterData = {
   pages: string[][]; // each page is a list of paragraphs
   closing: string;
   signature: string;
+  photo?: string; // data URL, embedded by the encrypt script
 };
 
 const fromB64 = (s: string) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));

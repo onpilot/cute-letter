@@ -1,16 +1,31 @@
-// Usage: node scripts/encrypt.mjs letter.json "your password"
+// Usage: node scripts/encrypt.mjs letter.json "your password" [photo.jpg]
 // Encrypts the letter with AES-256-GCM (key from PBKDF2) into src/letter.enc.json.
 import { readFileSync, writeFileSync } from "node:fs";
 import { randomBytes, pbkdf2Sync, createCipheriv } from "node:crypto";
+import { extname } from "node:path";
 
-const [, , file = "letter.json", password] = process.argv;
+const [, , file = "letter.json", password, photoPath] = process.argv;
 if (!password) {
-  console.error('Usage: node scripts/encrypt.mjs letter.json "your password"');
+  console.error('Usage: node scripts/encrypt.mjs letter.json "your password" [photo.jpg]');
   process.exit(1);
 }
 
-const text = readFileSync(file, "utf8");
-JSON.parse(text); // fail early if the JSON is broken
+const letter = JSON.parse(readFileSync(file, "utf8")); // fails early if the JSON is broken
+
+// Optional small photo for the first page. It is stored inside the encrypted data,
+// so it is protected by the password too (unlike a file in /public).
+if (photoPath) {
+  const mimes = { ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".svg": "image/svg+xml" };
+  const mime = mimes[extname(photoPath).toLowerCase()];
+  if (!mime) {
+    console.error("Photo must be .jpg, .jpeg, .png, .webp or .svg");
+    process.exit(1);
+  }
+  const buf = readFileSync(photoPath);
+  if (buf.length > 150 * 1024) console.warn(`Warning: photo is ${Math.round(buf.length / 1024)} KB. Resize it to ~300px wide (under 150 KB) to keep the site fast.`);
+  letter.photo = `data:${mime};base64,${buf.toString("base64")}`;
+}
+const text = JSON.stringify(letter);
 
 const iterations = 250000;
 const salt = randomBytes(16);

@@ -112,9 +112,32 @@ export default function Letter({ letter, onClose }: Props) {
                 if (info.offset.x < -60) go(page + 1);
                 else if (info.offset.x > 60) go(page - 1);
               }}
-              className="flex flex-col gap-10"
+              className="relative flex flex-col gap-10"
             >
-              {isFirst && <p className="font-hand text-4xl leading-10 font-bold text-berry sm:text-5xl">{letter.greeting}</p>}
+              {isFirst && (
+                <>
+                  <p
+                    className={`font-hand text-4xl leading-10 font-bold text-berry sm:text-5xl ${letter.photo ? "pr-20" : ""}`}
+                  >
+                    {letter.greeting}
+                  </p>
+                  {letter.photo && (
+                    <motion.figure
+                      initial={{ opacity: 0, scale: 0.7, rotate: 12 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 3 }}
+                      transition={{ delay: 0.7, type: "spring", stiffness: 180, damping: 14 }}
+                      className="absolute top-0 right-0 w-[4.5rem] rounded-sm bg-white p-1 pb-3 shadow-[0_3px_0_#ffd0e3] ring-1 ring-pink"
+                    >
+                      <img
+                        src={letter.photo}
+                        alt="a little photo for you"
+                        draggable={false}
+                        className="aspect-square w-full object-cover select-none"
+                      />
+                    </motion.figure>
+                  )}
+                </>
+              )}
               <PageText paragraphs={letter.pages[page]} animate={!typed && !prefersReduced()} onDone={markSeen} />
               {isLast && typed && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
